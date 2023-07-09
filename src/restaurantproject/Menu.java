@@ -18,6 +18,9 @@ public class Menu {
     private String itemName;
     private double amount;
 
+    public Menu() {
+    }
+
     public Menu(String itemId, String itemName, double amount) {
         this.itemId = itemId;
         this.itemName = itemName;

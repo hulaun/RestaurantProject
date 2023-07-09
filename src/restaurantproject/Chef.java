@@ -9,7 +9,7 @@ package restaurantproject;
  *
  * @author dvtso
  */
-public class Chef extends Employees {
+public class Chef extends Employee {
     private int chefId;
     private int orderId;
 

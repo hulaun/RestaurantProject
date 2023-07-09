@@ -9,6 +9,7 @@ package restaurantproject;
  *
  * @author dvtso
  */
+
 public class Customer {
     private int customerId;
     private String customerName;
@@ -32,11 +33,59 @@ public class Customer {
         System.out.println("Payment ID: " + paymentId);
     }
 
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public int getBillId() {
+        return billId;
+    }
+
+    public void setBillId(int billId) {
+        this.billId = billId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public String getName() {
+        return customerName;
+    }
+
     public void orderedItems() {
         System.out.println("Items ordered by customer");
     }
 
     public void paymentStatus() {
         System.out.println("Payment status: Paid");
+    }
+
+    public String toCSV() {
+        return customerId + "," + customerName + "," + billId + "," + orderId + "," + paymentId + "\n";
     }
 }

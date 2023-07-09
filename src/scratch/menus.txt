@@ -1,0 +1,25 @@
+    static String[] menu = {
+        "Employee management",
+        "Customer management",
+        "Exit",
+    };
+
+    static String[] customerMenu = {
+        "List all customers",
+        2"Search customer and his order",
+        "Add customer",
+        4"Add order",
+        "Read File",
+        6"Remove Order",
+        7"Remove Customer(payment)", 
+        8"Return",
+    };
+
+    static String[] employeeMenu = {
+        "List all employees",
+        2"Search employee",
+        3"Add employee",
+        4"Read File",
+        5"Remove Employee",
+        6"Return",
+    };
