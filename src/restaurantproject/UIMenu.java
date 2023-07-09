@@ -36,7 +36,7 @@ public abstract class UIMenu<T> {
     public int getSelected(){
         display();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter selection.");
+        System.out.print("Enter selection: ");
         return sc.nextInt();
     }
     

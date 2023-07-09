@@ -13,10 +13,12 @@ public class MenuItem {
     private int itemId;
     private String itemName;
     private int quantity;
+    private double amount;
 
-    public MenuItem(int itemId, String itemName, int quantity) {
+    public MenuItem(int itemId, String itemName, double amount, int quantity) {
         this.itemId = itemId;
         this.itemName = itemName;
+        this.amount = amount;
         this.quantity = quantity;
     }
 
@@ -28,11 +30,11 @@ public class MenuItem {
         return itemName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public double getAmount() {
+        return amount;
     }
 
-    double getAmount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getQuantity() {
+        return quantity;
     }
 }
