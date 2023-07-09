@@ -26,6 +26,10 @@ public class Order {
         this.serverId = serverId;
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
     public void addMenuItem(MenuItem item) {
         items.add(item);
     }
@@ -38,8 +42,16 @@ public class Order {
         for (MenuItem item : items) {
             System.out.println("Item ID: " + item.getItemId());
             System.out.println("Item Name: " + item.getItemName());
-            System.out.println("Quantity: " + item.getQuantity());
+            System.out.println("Quantity: " + item.getAmount());
             System.out.println("-------------------------");
         }
+    }
+
+    public String toCSV() {
+        String csv = orderId + "," + customerId + "," + serverId;
+        for (MenuItem item : items) {
+            csv += "," + item.getItemId() + "," + item.getAmount();
+        }
+        return csv;
     }
 }
