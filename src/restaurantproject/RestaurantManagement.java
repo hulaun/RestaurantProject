@@ -4,6 +4,7 @@
  */
 package restaurantproject;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Scanner;
  */
 public class RestaurantManagement extends UIMenu<String>{
     
+    Validation val = new Validation();
     static String[] menu = {
         "Employee management", 
         "Customer management",
@@ -38,7 +40,6 @@ public class RestaurantManagement extends UIMenu<String>{
         "Return"
     };
     
-    //Validation val = new Validation();
     public RestaurantManagement() {
         super("Company Management System!!!", menu);
     }
@@ -91,7 +92,7 @@ public class RestaurantManagement extends UIMenu<String>{
                     case 5:
                         try {
                             Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
-                        } catch (Exception e) {
+                        } catch (IOException e) {
                             System.out.println("Error: " + e.getMessage());
                         }
                         break;
@@ -126,7 +127,7 @@ public class RestaurantManagement extends UIMenu<String>{
                     case 4:
                         try {
                             Restaurant.employeesFromCSV(FileHandler.readFromFile("employees.csv"));
-                        } catch (Exception e) {
+                        } catch (IOException e) {
                             System.out.println("Error: " + e.getMessage());
                         }
                         break;
@@ -153,16 +154,16 @@ public class RestaurantManagement extends UIMenu<String>{
         /*them customer va order chung vao CustomerFile
             khi old customer muon order thi update CustomerFile 
         */
-        int id = Integer.parseInt(getValue("Enter CustomerID :"));
+        int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID :")));
 
         // Check if the customer already exists
         Customer existingCustomer = Restaurant.getCustomerById(id);
         if (existingCustomer != null) {
             // Print the customer name and prompt for bill, order, and payment
             System.out.println("Customer name: " + existingCustomer.getName());
-            int billId = Integer.parseInt(getValue("Enter BillID: "));
-            int orderId = Integer.parseInt(getValue("Enter OrderID: "));
-            int paymentId = Integer.parseInt(getValue("Enter PaymentID: "));
+            int billId = Integer.parseInt(val.validBillId(getValue("Enter BillID: ")));
+            int orderId = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
+            int paymentId = Integer.parseInt(val.validPaymentId(getValue("Enter PaymentID: ")));
     
             // Update the existing customer
             existingCustomer.setBillId(billId);
@@ -171,20 +172,20 @@ public class RestaurantManagement extends UIMenu<String>{
             System.out.println("Customer updated successfully.");
         } else {
             // Add a new customer
-            String name = getValue("Enter Name of Customer: ");
-            int billId = Integer.parseInt(getValue("Enter BillID: "));
-            int orderId = Integer.parseInt(getValue("Enter OrderID: "));
-            int paymentId = Integer.parseInt(getValue("Enter PaymentID: "));
+            String name = val.validName(getValue("Enter Name of Customer: "));
+            int billId = Integer.parseInt(val.validBillId(getValue("Enter BillID: ")));
+            int orderId = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
+            int paymentId = Integer.parseInt(val.validPaymentId(getValue("Enter PaymentID: ")));
             Restaurant.appendCustomer(new Customer(id, name, billId, orderId, paymentId));
             System.out.println("Customer added successfully.");
         }
     }
 
     public void addOrder() {
-        int id = Integer.parseInt(getValue("Enter OrderID: "));
-        int customerId = Integer.parseInt(getValue("Enter CustomerID: "));
-        int chefId = Integer.parseInt(getValue("Enter ChefID: "));
-        int serverId = Integer.parseInt(getValue("Enter ServerID: "));
+        int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
+        int customerId = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
+        int chefId = Integer.parseInt(val.validChefId(getValue("Enter ChefID: ")));
+        int serverId = Integer.parseInt(val.validServerId(getValue("Enter ServerID: ")));
 
         // Check if the order already exists
         Order existingOrder = Restaurant.getOrderById(id);
@@ -192,7 +193,7 @@ public class RestaurantManagement extends UIMenu<String>{
     }
 
     public void addEmployee() {
-        int id = Integer.parseInt(getValue("Enter EmployeeID: "));
+        int id = Integer.parseInt(val.validEmployeeId(getValue("Enter EmployeeID: ")));
         
 
         // Check if the employee already exists
@@ -201,14 +202,14 @@ public class RestaurantManagement extends UIMenu<String>{
         if (existingEmployee != null) {
             // Print the employee name and prompt for salary
             System.out.println("Employee name: " + existingEmployee.getName());
-            double newSalary = Double.parseDouble(getValue("Enter new salary: "));
+            double newSalary = Double.parseDouble(val.validSalary(getValue("Enter new salary: ")));
 
             // Update the existing employee
             existingEmployee.setSalary(newSalary);
             System.out.println("Employee updated successfully.");
         } else {
-            String name = getValue("Enter Name of Employee: ");
-            double salary = Double.parseDouble(getValue("Enter Salary of Employee: "));
+            String name = val.validName(getValue("Enter Name of Employee: "));
+            double salary = Double.parseDouble(val.validSalary(getValue("Enter Salary of Employee: ")));
             // Add a new employee
             Restaurant.appendEmployee(new Employee(id, name, salary));
             System.out.println("Employee added successfully.");
@@ -223,12 +224,12 @@ public class RestaurantManagement extends UIMenu<String>{
             public void execute(int n) {
                 switch (n) {
                     case 1:
-                        String val = getValue("Enter CustomerID :");
-                        Restaurant.searchCustomerById(Integer.parseInt(val));
+                        String value = val.validCustomerId(getValue("Enter CustomerID :"));
+                        Restaurant.searchCustomerById(Integer.parseInt(value));
                         break;
                     case 2:
-                        val = getValue("Enter Name of Customer :");
-                        Restaurant.searchCustomerByName(val);
+                        value = val.validName(getValue("Enter Name of Customer :"));
+                        Restaurant.searchCustomerByName(value);
                         break;
 
                     default:
@@ -246,12 +247,12 @@ private void employeeSearching() {
         public void execute(int n) {
             switch (n) {
                 case 1:
-                    String val = getValue("Enter ID :");
-                    Restaurant.searchEmployeeById(Integer.parseInt(val));
+                    String value = val.validEmployeeId(getValue("Enter ID :"));
+                    Restaurant.searchEmployeeById(Integer.parseInt(value));
                     break;
                 case 2:
-                    val = getValue("Enter Name of Employee :");
-                    Restaurant.searchEmployeeByName(val);
+                    value = val.validName(getValue("Enter Name of Employee :"));
+                    Restaurant.searchEmployeeByName(value);
                     break;
 
                 default:
@@ -267,7 +268,7 @@ private void employeeSearching() {
         try {
             FileHandler.writeToFile("customers.csv", Restaurant.customersToCSV());
             FileHandler.writeToFile("employees.csv", Restaurant.employeesToCSV());
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
         System.out.println("Thank you for choosing us! bye bye");
@@ -275,17 +276,17 @@ private void employeeSearching() {
     }
 
     private void removeOrder() {
-        int id = Integer.parseInt(getValue("Enter OrderID: "));
+        int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
         Restaurant.removeOrderById(id);
     }
 
     private void removeCustomer() {
-        int id = Integer.parseInt(getValue("Enter CustomerID: "));
+        int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
         Restaurant.removeCustomerById(id);
     }
 
     private void removeEmployee() {
-        int id = Integer.parseInt(getValue("Enter EmployeeID: "));
+        int id = Integer.parseInt(val.validEmployeeId(getValue("Enter EmployeeID: ")));
         Restaurant.removeEmployeeById(id);
     }
 }
