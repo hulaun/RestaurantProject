@@ -34,19 +34,6 @@ public class Order {
         items.add(item);
     }
 
-    public void orderItems(Menu menu) {
-        System.out.println("Order ID: " + orderId);
-        System.out.println("Customer ID: " + customerId);
-        System.out.println("Server ID: " + serverId);
-        System.out.println("Ordered Items:");
-        for (MenuItem item : items) {
-            System.out.println("Item ID: " + item.getItemId());
-            System.out.println("Item Name: " + item.getItemName());
-            System.out.println("Quantity: " + item.getAmount());
-            System.out.println("-------------------------");
-        }
-    }
-
     public String toCSV() {
         String csv = orderId + "," + customerId + "," + serverId;
         for (MenuItem item : items) {
