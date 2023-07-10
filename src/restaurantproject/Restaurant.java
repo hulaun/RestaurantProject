@@ -10,13 +10,16 @@ public class Restaurant {
     private List<Employee> employees;
     private List<Customer> customers;
     private List<Order> orders;
-    private Menu menu;
+    private List<MenuItem> menuItems;
+    private List<Table> tables;
 
     private Restaurant() {
         // private constructor to prevent instantiation from outside
         employees = new ArrayList<>();
         customers = new ArrayList<>();
-        menu = new Menu();
+        orders = new ArrayList<>();
+        menuItems = new ArrayList<>();
+        tables = new ArrayList<>();
     }
 
     public static Restaurant getInstance() {
@@ -34,8 +37,20 @@ public class Restaurant {
         return customers;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public List<Table> getTables() {
+        return tables;
+    }
+
+    public static void addOrder(Order order) {
+        instance.orders.add(order);
     }
 
     public static void appendCustomer(Customer customer) {
@@ -60,6 +75,15 @@ public class Restaurant {
         for (Customer customer : instance.customers) {
             if (customer.getCustomerId() == id) {
                 return customer;
+            }
+        }
+        return null;
+    }
+
+    public static Order getOrderById(int id) {
+        for (Order order : instance.orders) {
+            if (order.getOrderId() == id) {
+                return order;
             }
         }
         return null;
@@ -190,5 +214,14 @@ public class Restaurant {
                 instance.employees.remove(employee);
             }
         }
+    }
+
+    public static boolean validItemId(int id) {
+        for (MenuItem menuItem : instance.menuItems) {
+            if (menuItem.getItemId() == id) {
+                return true;
+            }
+        }
+        return false;
     }
 }

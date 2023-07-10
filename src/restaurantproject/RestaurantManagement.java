@@ -48,7 +48,7 @@ public class RestaurantManagement extends UIMenu<String>{
     public static void main(String[] args) {
         // Instantiate the Restaurant and read data from CSV file
         Restaurant.getInstance();
-        Restaurant.fromCSV();
+        // Restaurant.fromCSV();
 
         RestaurantManagement rm = new RestaurantManagement();
         rm.run();
@@ -182,14 +182,22 @@ public class RestaurantManagement extends UIMenu<String>{
     }
 
     public void addOrder() {
+
         int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
-        int customerId = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
-        int chefId = Integer.parseInt(val.validChefId(getValue("Enter ChefID: ")));
-        int serverId = Integer.parseInt(val.validServerId(getValue("Enter ServerID: ")));
 
         // Check if the order already exists
-        Order existingOrder = Restaurant.getOrderById(id);
-        /* TODO */
+        Order order = Restaurant.getOrderById(id);
+        if (order == null) {
+            // Add a new order
+            int customerId = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
+            int serverId = Integer.parseInt(val.validServerId(getValue("Enter ServerID: ")));
+
+            order = new Order(id, customerId, serverId);
+        }
+
+        // TODO: Add item to order
+        // TODO: Print the menu
+        // TODO: Iteratively prompt the user to add items, check for valid input, and add to order
     }
 
     public void addEmployee() {
