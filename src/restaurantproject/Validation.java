@@ -14,73 +14,64 @@ public class Validation {
     private Scanner sc = new Scanner(System.in);
     
     public String validCustomerId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validCustomerId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validBillId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validBillId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validPaymentId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validPaymentId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validOrderId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validOrderId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validChefId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validChefId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validServerId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validServerId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validEmployeeId(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*")) {
-            return id;
+        if (value.matches("[0-9]*")) {
+            return value;
         } else {
             return validEmployeeId(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validSalary(String value){
-        String id = sc.nextLine();
-        if (id.matches("[0-9]*\\.?[0-9]+")) {
-            return id;
+        if (value.matches("[0-9]*\\.?[0-9]+")) {
+            return value;
         } else {
             return validSalary(getValue("Invalid ID format. Please enter ID with integers only: "));
         } 
     }
     public String validName(String value){
-        String name = sc.nextLine();
-        if (name.matches("[a-zA-Z]+")) {
-            return name;
+        if (value.matches("[a-zA-Z ]+")) {
+            return value;
         } else {
             return validName(getValue("Invalid name. Please enter name with characters only: "));
         } 

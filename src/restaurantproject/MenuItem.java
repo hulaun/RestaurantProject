@@ -15,6 +15,12 @@ public class MenuItem {
     private int quantity;
     private double amount;
 
+    public MenuItem(int itemId, String itemName, double amount) {
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.amount = amount;
+    }
+
     public MenuItem(int itemId, String itemName, double amount, int quantity) {
         this.itemId = itemId;
         this.itemName = itemName;
@@ -36,5 +42,22 @@ public class MenuItem {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public String toString() {
+        return String.format("%-5d%-20s%-10.2f", itemId, itemName, amount);
+    }
+
+    public String toCSV() {
+        return String.format("%d,%s,%.2f,%d", itemId, itemName, amount, quantity);
+    }
+
+    public static MenuItem parseCSV(String line) {
+        String[] tokens = line.split(",");
+        int itemId = Integer.parseInt(tokens[0]);
+        String itemName = tokens[1];
+        double amount = Double.parseDouble(tokens[2]);
+        int quantity = Integer.parseInt(tokens[3]);
+        return new MenuItem(itemId, itemName, amount, quantity);
     }
 }

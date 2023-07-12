@@ -30,15 +30,9 @@ public class Order {
         return orderId;
     }
 
-    public void addMenuItem(MenuItem item) {
-        items.add(item);
+    public void addMenuItem(MenuItem item, int quantity) {
+        MenuItem newItem = new MenuItem(item.getItemId(), item.getItemName(), item.getAmount(), quantity);
+        items.add(newItem);
     }
 
-    public String toCSV() {
-        String csv = orderId + "," + customerId + "," + serverId;
-        for (MenuItem item : items) {
-            csv += "," + item.getItemId() + "," + item.getAmount();
-        }
-        return csv;
-    }
 }

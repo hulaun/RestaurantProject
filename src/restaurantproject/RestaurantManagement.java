@@ -15,9 +15,9 @@ public class RestaurantManagement extends UIMenu<String>{
     
     Validation val = new Validation();
     static String[] menu = {
-        "Employee management", 
-        "Customer management",
-        "Exit"
+        "Customer Management",
+        "Employee Management",
+        "Exit",
     };
     
     static String[] customerMenu = {
@@ -28,7 +28,7 @@ public class RestaurantManagement extends UIMenu<String>{
         "Read File",
         "Remove Order",
         "Remove Customer(payment)", 
-        "Return"
+        "Return",
     };
 
     static String[] employeeMenu = {
@@ -37,7 +37,7 @@ public class RestaurantManagement extends UIMenu<String>{
         "Add employee", 
         "Read File",
         "Remove Employee", 
-        "Return"
+        "Return",
     };
     
     public RestaurantManagement() {
@@ -48,7 +48,15 @@ public class RestaurantManagement extends UIMenu<String>{
     public static void main(String[] args) {
         // Instantiate the Restaurant and read data from CSV file
         Restaurant.getInstance();
-        // Restaurant.fromCSV();
+        if (input("Read from file? (y/n)").equalsIgnoreCase("y")) {
+            try {
+                Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
+                Restaurant.employeesFromCSV(FileHandler.readFromFile("employees.csv"));
+                // TODO: Implement save order as a raw object
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
 
         RestaurantManagement rm = new RestaurantManagement();
         rm.run();
@@ -189,15 +197,46 @@ public class RestaurantManagement extends UIMenu<String>{
         Order order = Restaurant.getOrderById(id);
         if (order == null) {
             // Add a new order
+            // TODO: Validation check: check for valid customer and server IDs (must exist)
             int customerId = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
             int serverId = Integer.parseInt(val.validServerId(getValue("Enter ServerID: ")));
 
+            Restaurant.getCustomerById(customerId).setOrderId(id);
+            Restaurant.getEmployeeById(serverId).setOrderId(id);
             order = new Order(id, customerId, serverId);
         }
 
-        // TODO: Add item to order
-        // TODO: Print the menu
-        // TODO: Iteratively prompt the user to add items, check for valid input, and add to order
+        // Print the menu
+        Restaurant restaurant = Restaurant.getInstance();
+        Menu menu = restaurant.menu();
+        menu.displayMenu();
+
+        // Iteratively prompt the user to add items, check for valid input, and add to order
+        Scanner scanner = new Scanner(System.in);
+        boolean done = false;
+        while (!done) {
+            // Prompt the user for the item ID and quantity
+            // TODO: Check for valid input 
+            int itemId = Integer.parseInt(getValue("Enter item ID: "));
+            int quantity = Integer.parseInt(getValue("Enter quantity: "));
+
+            // Check if the item ID is valid
+            MenuItem menuItem = Restaurant.getMenuItemById(itemId);
+            if (menuItem == null) {
+                System.out.println("Invalid item ID. Please try again.");
+                continue;
+            }
+
+            // Add the item to the order
+            order.addMenuItem(menuItem, quantity);
+
+            // Prompt the user to add another item or finish
+            System.out.println("Add another item? (y/n)");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("n")) {
+                done = true;
+            }
+        }
     }
 
     public void addEmployee() {
@@ -271,13 +310,15 @@ private void employeeSearching() {
     m.run();
 }
 
+    private static String input(String prompt) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
     private static void close() {
-        System.out.println("Writing to file...");
-        try {
-            FileHandler.writeToFile("customers.csv", Restaurant.customersToCSV());
-            FileHandler.writeToFile("employees.csv", Restaurant.employeesToCSV());
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+        if (input("Do you want to save the changes? (y/n): ").equalsIgnoreCase("y")) {
+            Restaurant.save();
         }
         System.out.println("Thank you for choosing us! bye bye");
         System.exit(0);

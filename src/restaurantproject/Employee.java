@@ -37,6 +37,10 @@ public class Employee {
         this.employeeSalary = salary;
     }
 
+    public void setOrderId(int orderId) {
+        this.employeeId = orderId;
+    }
+
     public void employeeDetails() {
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Employee Name: " + employeeName);
