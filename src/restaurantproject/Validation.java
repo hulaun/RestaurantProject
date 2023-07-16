@@ -88,7 +88,7 @@ public class Validation {
         } 
     }
     public String validName(String value){
-        if (value.matches("[a-zA-Z]+")) {
+        if (value.matches("[a-zA-Z ]+")) {
             return value;
         } else {
             return validName(getValue("Invalid name. Please enter name with characters only: "));

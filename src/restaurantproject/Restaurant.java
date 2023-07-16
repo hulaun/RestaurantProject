@@ -10,7 +10,7 @@ public class Restaurant {
     private List<Employee> employees;
     private List<Customer> customers;
     private List<Order> orders;
-    private List<MenuItem> menuItems;
+    private Menu menu;
     private List<Table> tables;
 
     private Restaurant() {
@@ -18,7 +18,7 @@ public class Restaurant {
         employees = new ArrayList<>();
         customers = new ArrayList<>();
         orders = new ArrayList<>();
-        menuItems = new ArrayList<>();
+        menu = new Menu();
         tables = new ArrayList<>();
     }
 
@@ -27,6 +27,10 @@ public class Restaurant {
             instance = new Restaurant();
         }
         return instance;
+    }
+
+    public Menu menu() {
+        return menu;
     }
 
     public List<Employee> getEmployees() {
@@ -39,10 +43,6 @@ public class Restaurant {
 
     public List<Order> getOrders() {
         return orders;
-    }
-
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
     }
 
     public List<Table> getTables() {
@@ -188,6 +188,15 @@ public class Restaurant {
         instance.employees.add(employee);
     }
 
+    public static MenuItem getMenuItemById(int id) {
+        for (MenuItem menuItem : instance.menu.getMenuItems()) {
+            if (menuItem.getItemId() == id) {
+                return menuItem;
+            }
+        }
+        return null;
+    }
+
     public static Employee getEmployeeById(int id) {
         for (Employee employee : instance.employees) {
             if (employee.getId() == id) {
@@ -242,12 +251,12 @@ public class Restaurant {
         instance.employees.removeIf(emp -> emp.getId() == id);
     }
 
-    public static boolean validItemId(int id) {
-        for (MenuItem menuItem : instance.menuItems) {
-            if (menuItem.getItemId() == id) {
-                return true;
-            }
+    public static void save() {
+        try {
+            FileHandler.writeToFile("customers.csv", customersToCSV());
+            FileHandler.writeToFile("employees.csv", employeesToCSV());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return false;
     }
 }

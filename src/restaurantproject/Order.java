@@ -31,6 +31,11 @@ public class Order {
         return orderId;
     }
 
+    public void addMenuItem(MenuItem item, int quantity) {
+        MenuItem newItem = new MenuItem(item.getItemId(), item.getItemName(), item.getAmount(), quantity);
+        items.add(newItem);
+    }
+
     public boolean isIsOrdered() {
         return isOrdered;
     }
