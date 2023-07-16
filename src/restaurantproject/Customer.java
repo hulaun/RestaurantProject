@@ -5,6 +5,8 @@
  */
 package restaurantproject;
 
+import java.util.List;
+
 /**
  *
  * @author dvtso
@@ -14,14 +16,14 @@ public class Customer {
     private int customerId;
     private String customerName;
     private int billId;
-    private int orderId;
+    private List<Integer> orderIds;
     private int paymentId;
 
     public Customer(int customerId, String customerName, int billId, int orderId, int paymentId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.billId = billId;
-        this.orderId = orderId;
+        this.orderIds.add(orderId);
         this.paymentId = paymentId;
     }
 
@@ -29,7 +31,10 @@ public class Customer {
         System.out.println("Customer ID: " + customerId);
         System.out.println("Customer Name: " + customerName);
         System.out.println("Bill ID: " + billId);
-        System.out.println("Order ID: " + orderId);
+        System.out.println("Order ID: ");
+        for(int i =0 ;i<orderIds.size();i++){
+            System.out.println("\t"+(i+1)+" "+orderIds.get(i));
+        }
         System.out.println("Payment ID: " + paymentId);
     }
 
@@ -57,13 +62,14 @@ public class Customer {
         this.billId = billId;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public List<Integer> getOrderIds() {
+        return orderIds;
     }
 
     public void setOrderId(int orderId) {
-        this.orderId = orderId;
+        this.orderIds.add(orderId);
     }
+    
 
     public int getPaymentId() {
         return paymentId;
@@ -86,6 +92,13 @@ public class Customer {
     }
 
     public String toCSV() {
-        return customerId + "," + customerName + "," + billId + "," + orderId + "," + paymentId + "\n";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < orderIds.size(); i++) {
+            sb.append(orderIds.get(i));
+            if (i != orderIds.size() - 1) {
+                sb.append(";");
+            }
+        }
+        return customerId + "," + customerName + "," + billId + "," + sb + "," + paymentId + "\n";
     }
 }

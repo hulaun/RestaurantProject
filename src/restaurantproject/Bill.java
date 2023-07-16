@@ -15,6 +15,7 @@ public class Bill {
     private int billId;
     private int orderId;
     private double totalBill;
+    private boolean isPaid=false;
 
     public Bill(int billId, int orderId) {
         this.billId = billId;
@@ -24,15 +25,30 @@ public class Bill {
 
     public void calculateBill(List<MenuItem> items) {
         for (MenuItem item : items) {
-            double itemAmount = item.getAmount();
+            double itemCost = item.getCost();
             int itemQuantity = item.getQuantity();
 
-            double itemCost = itemAmount * itemQuantity;
-            totalBill += itemCost;
+            double itemsCost = itemCost * itemQuantity;
+            totalBill += itemsCost;
         }
 
         System.out.println("Bill ID: " + billId);
         System.out.println("Order ID: " + orderId);
         System.out.println("Total Bill: " + totalBill);
+    }
+    
+    public void markAsPaid() {
+        isPaid=true;
+        System.out.println("Bill ID: " + billId);
+        System.out.println("Payment status: Paid");
+    }
+
+    public void markAsUnpaid() {
+        System.out.println("Bill ID: " + billId);
+        System.out.println("Payment status: Not paid");
+    }
+
+    public boolean isPaid() {
+        return isPaid;
     }
 }

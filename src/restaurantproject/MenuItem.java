@@ -37,7 +37,7 @@ public class MenuItem {
         return itemName;
     }
 
-    public double getAmount() {
+    public double getCost() {
         return cost;
     }
 

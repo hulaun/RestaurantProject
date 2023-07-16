@@ -26,6 +26,7 @@ public class RestaurantManagement extends UIMenu<String>{
         "Add customer", 
         "Add order", 
         "Read File",
+        "Check Ordered",
         "Remove Order",
         "Remove Customer(payment)", 
         "Return"
@@ -95,14 +96,18 @@ public class RestaurantManagement extends UIMenu<String>{
                     case 6:
                         try {
                             Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
+                            Restaurant.menuItemsFromCSV(FileHandler.readFromFile("menuItems.csv"));
                         } catch (IOException e) {
                             System.out.println("Error: " + e.getMessage());
                         }
                         break;
                     case 7:
-                        removeOrder();
+                        isOrdered();
                         break;
                     case 8:
+                        removeOrder();
+                        break;
+                    case 9:
                         removeCustomer();
                         break; 
                     default:
@@ -193,9 +198,13 @@ public class RestaurantManagement extends UIMenu<String>{
 
             order = new Order(id, customerId, serverId);
         }
+        //IN menu
+        Restaurant.printMenuItems();
+        //
+//        while()
+//        int itemId = Integer.parseInt(val.validItemId(getValue("Enter itemID which you want to order (1-7)or 8 to submit order:")));
 
         // TODO: Add item to order
-        // TODO: Print the menu
         // TODO: Iteratively prompt the user to add items, check for valid input, and add to order
     }
 
@@ -281,6 +290,11 @@ private void employeeSearching() {
         System.out.println("Thank you for choosing us! bye bye");
         System.exit(0);
     }
+    
+    private void isOrdered() {
+        int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
+        Restaurant.removeCustomerById(id);
+    }
 
     private void removeOrder() {
         int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
@@ -291,7 +305,7 @@ private void employeeSearching() {
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
         Restaurant.removeCustomerById(id);
     }
-
+    
     private void removeEmployee() {
         int id = Integer.parseInt(val.validEmployeeId(getValue("Enter EmployeeID: ")));
         Restaurant.removeEmployeeById(id);

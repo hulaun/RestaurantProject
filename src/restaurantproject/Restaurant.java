@@ -219,27 +219,15 @@ public class Restaurant {
     }
 
     public static void removeOrderById(int id) {
-        for (Order order : instance.orders) {
-            if (order.getOrderId() == id) {
-                instance.orders.remove(order);
-            }
-        }
+        instance.orders.removeIf(ord -> ord.getOrderId() == id);
     }
 
     public static void removeCustomerById(int id) {
-        for (Customer customer : instance.customers) {
-            if (customer.getCustomerId() == id) {
-                instance.customers.remove(customer);
-            }
-        }
+        instance.customers.removeIf(cus -> cus.getCustomerId() == id);
     }
 
     public static void removeEmployeeById(int id) {
-        for (Employee employee : instance.employees) {
-            if (employee.getId() == id) {
-                instance.employees.remove(employee);
-            }
-        }
+        instance.employees.removeIf(emp -> emp.getId() == id);
     }
 
     public static boolean validItemId(int id) {

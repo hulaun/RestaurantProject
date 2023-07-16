@@ -18,6 +18,7 @@ public class Order {
     private List<MenuItem> items;
     private int customerId;
     private int serverId;
+    private boolean isOrdered = false;
 
     public Order(int orderId, int customerId, int serverId) {
         this.orderId = orderId;
@@ -30,6 +31,10 @@ public class Order {
         return orderId;
     }
 
+    public boolean isIsOrdered() {
+        return isOrdered;
+    }
+
     public void addMenuItem(MenuItem item) {
         items.add(item);
     }
@@ -37,8 +42,14 @@ public class Order {
     public String toCSV() {
         String csv = orderId + "," + customerId + "," + serverId;
         for (MenuItem item : items) {
-            csv += "," + item.getItemId() + "," + item.getAmount();
+            csv += "," + item.getItemName()+ "," + item.getCost();
         }
         return csv;
+    }
+    public void checkIsOrdered(){
+        this.isOrdered =true;
+    }
+    public boolean hasItemsInList(){
+        return !(items.isEmpty());
     }
 }
