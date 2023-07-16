@@ -90,7 +90,8 @@ public class RestaurantManagement extends UIMenu<String>{
                         Restaurant.printCustomers();
                         break;
                     case 2:
-                        Restaurant.printMenuItems();
+                        Menu menuItems = Restaurant.getInstance().menu();
+                        menuItems.displayMenu();
                         break;
                     case 3:
                         customerSearching();
@@ -104,7 +105,8 @@ public class RestaurantManagement extends UIMenu<String>{
                     case 6:
                         try {
                             Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
-                            Restaurant.menuItemsFromCSV(FileHandler.readFromFile("menuItems.csv"));
+                            menuItems = Restaurant.getInstance().menu();
+                            menuItems.readMenuFromCSV();
                         } catch (IOException e) {
                             System.out.println("Error: " + e.getMessage());
                         }
@@ -203,20 +205,18 @@ public class RestaurantManagement extends UIMenu<String>{
             // Add a new order
             // TODO: Validation check: check for valid customer and server IDs (must exist)
             int customerId = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
-            int serverId = Integer.parseInt(val.validServerId(getValue("Enter ServerID: ")));
 
             Restaurant.getCustomerById(customerId).setOrderId(id);
-            Restaurant.getEmployeeById(serverId).setOrderId(id);
-            order = new Order(id, customerId, serverId);
+            order = new Order(id, customerId);
         }
 
         // Print the menu
         Restaurant restaurant = Restaurant.getInstance();
-        Menu menu = restaurant.menu();
-        menu.displayMenu();
+        Menu menuItems = restaurant.menu();
+        menuItems.displayMenu();
 
         // Iteratively prompt the user to add items, check for valid input, and add to order
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         boolean done = false;
         while (!done) {
             // Prompt the user for the item ID and quantity
@@ -235,8 +235,7 @@ public class RestaurantManagement extends UIMenu<String>{
             order.addMenuItem(menuItem, quantity);
 
             // Prompt the user to add another item or finish
-            System.out.println("Add another item? (y/n)");
-            String input = scanner.nextLine();
+            String input = input("Add another item? (y/n)");
             if (input.equalsIgnoreCase("n")) {
                 done = true;
             }
@@ -255,14 +254,19 @@ public class RestaurantManagement extends UIMenu<String>{
         String type = val.validType(getValue("Enter Type of Employee (\"chef\" or \"server\"): "));
         // Add a new employee
         String name = val.validName(getValue("Enter Name of Employee: "));
-        int salary = Integer.parseInt(val.validSalary(getValue("Enter Salary of Employee: ")));
-        if (type.equals("chef")) {
-            employee = new Chef(id, name, salary);
-        } else if (type.equals("server")) {
-            employee = new Server(id, name, salary);
-        } else {
-            System.out.println("Invalid employee type.");
-            return;
+        double salary = Double.parseDouble(val.validSalary(getValue("Enter Salary of Employee: ")));
+        switch (type) {
+            case "chef":
+                employee = new Chef(id, name, salary);
+                Restaurant.appendEmployee(employee);
+                break;
+            case "server":
+                employee = new Server(id, name, salary);
+                Restaurant.appendEmployee(employee);
+                break;
+            default:
+                System.out.println("Invalid employee type.");
+                return;
         }
     }
 
@@ -290,33 +294,32 @@ public class RestaurantManagement extends UIMenu<String>{
         m.run();
     }
 //--------------------------------------------------  
-private void employeeSearching() {  
-    String[] mSearch = {"Find by ID", "Find by Name"};
-    UIMenu m = new UIMenu("Employee Searching", mSearch) {
-        @Override
-        public void execute(int n) {
-            switch (n) {
-                case 1:
-                    String value = val.validEmployeeId(getValue("Enter ID :"));
-                    Restaurant.searchEmployeeById(Integer.parseInt(value));
-                    break;
-                case 2:
-                    value = val.validName(getValue("Enter Name of Employee :"));
-                    Restaurant.searchEmployeeByName(value);
-                    break;
+    private void employeeSearching() {  
+        String[] mSearch = {"Find by ID", "Find by Name"};
+        UIMenu m = new UIMenu("Employee Searching", mSearch) {
+            @Override
+            public void execute(int n) {
+                switch (n) {
+                    case 1:
+                        String value = val.validEmployeeId(getValue("Enter ID :"));
+                        Restaurant.searchEmployeeById(Integer.parseInt(value));
+                        break;
+                    case 2:
+                        value = val.validName(getValue("Enter Name of Employee :"));
+                        Restaurant.searchEmployeeByName(value);
+                        break;
 
-                default:
-                    return;
+                    default:
+                        return;
+                }
             }
-        }
-    };
-    m.run();
-}
+        };
+        m.run();
+    }
 
     private static String input(String prompt) {
-        Scanner scanner = new Scanner(System.in);
         System.out.print(prompt);
-        return scanner.nextLine();
+        return sc.nextLine();
     }
 
     private static void close() {
@@ -339,6 +342,8 @@ private void employeeSearching() {
 
     private void removeCustomer() {
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
+        Bill bill = new Bill(Restaurant.getCustomerById(id).getBillId(),Restaurant.getCustomerById(id).getOrderIds()); 
+        Restaurant.billCalculate(bill);
         Restaurant.removeCustomerById(id);
     }
     

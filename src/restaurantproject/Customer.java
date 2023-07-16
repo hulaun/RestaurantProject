@@ -99,6 +99,6 @@ public class Customer {
                 sb.append(";");
             }
         }
-        return customerId + "," + customerName + "," + billId + "," + sb + "," + paymentId + "\n";
+        return customerId + "," + customerName + "," + billId + "," + sb + "," + paymentId;
     }
 }

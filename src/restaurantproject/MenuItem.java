@@ -15,23 +15,16 @@ public class MenuItem {
     private int quantity;
     private double cost;
 
-    public MenuItem(int itemId, String itemName, double amount) {
+    public MenuItem(int itemId, String itemName, double cost) {
         this.itemId = itemId;
         this.itemName = itemName;
-        this.amount = amount;
+        this.cost = cost;
     }
 
-    public MenuItem(int itemId, String itemName, double amount, int quantity) {
-        this.itemId = itemId;
-        this.itemName = itemName;
-        this.cost = amount;
-        this.quantity = quantity;
-    }
 
     public void itemDetails() {
         System.out.println("Item ID: " + itemId);
         System.out.println("Item Name: " + itemName);
-        System.out.println("Item Quantity: " + quantity);
         System.out.println("Item Amout: " + cost);
     }
     
@@ -47,24 +40,21 @@ public class MenuItem {
         return cost;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }
 
+    @Override
     public String toString() {
-        return String.format("%-5d%-20s%-10.2f", itemId, itemName, amount);
+        return String.format("%-5d%-20s%-10.2f", itemId, itemName, cost);
     }
 
     public String toCSV() {
-        return String.format("%d,%s,%.2f,%d", itemId, itemName, amount, quantity);
+        return String.format("%d,%s,%.2f", itemId, itemName, cost);
     }
 
-    public static MenuItem parseCSV(String line) {
-        String[] tokens = line.split(",");
-        int itemId = Integer.parseInt(tokens[0]);
-        String itemName = tokens[1];
-        double amount = Double.parseDouble(tokens[2]);
-        int quantity = Integer.parseInt(tokens[3]);
-        return new MenuItem(itemId, itemName, amount, quantity);
-    }
 }

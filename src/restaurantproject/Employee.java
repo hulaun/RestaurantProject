@@ -42,6 +42,13 @@ public abstract class Employee {
         this.employeeId = orderId;
     }
 
+    public String getTYPE() {
+        return TYPE;
+    }
+
+    public abstract void setTYPE();
+    
+
     public void employeeDetails() {
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Employee Name: " + employeeName);

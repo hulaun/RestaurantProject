@@ -11,15 +11,11 @@ package restaurantproject;
  */
 public class Server extends Employee {
     // Bro just violated encapsulation
-    private final String TYPE = "server";
-    private int serverId;
     private int orderId;
     private int tableId;
 
-    public Server(int employeeId, String employeeName, double employeeSalary, int serverId, int orderId) {
+    public Server(int employeeId, String employeeName, double employeeSalary) {
         super(employeeId, employeeName, employeeSalary);
-        this.serverId = serverId;
-        this.orderId = orderId;
     }
 
     public void assignTable(int tableId) {
@@ -32,6 +28,11 @@ public class Server extends Employee {
 
     @Override
     public String toCSV() {
-        return TYPE + "," + getId() + "," + getName() + "," + getSalary() + "," + serverId + "," + orderId;
+        return TYPE + "," + getId() + "," + getName() + "," + getSalary() + "," + orderId;
+    }
+
+    @Override
+    public void setTYPE() {
+        super.TYPE="server";
     }
 }

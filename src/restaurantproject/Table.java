@@ -12,21 +12,31 @@ package restaurantproject;
 public class Table {
     private int tableNumber;
     private boolean occupiedStatus;
-    private int serverId;
     private int customerId;
 
-    public Table(int tableNumber, boolean occupiedStatus, int serverId, int customerId) {
+    public Table(int tableNumber, boolean occupiedStatus, int customerId) {
         this.tableNumber = tableNumber;
         this.occupiedStatus = occupiedStatus;
-        this.serverId = serverId;
         this.customerId = customerId;
     }
 
     public void tableDetails() {
-        System.out.println("Table Number: " + tableNumber);
-        System.out.println("Occupied Status: " + occupiedStatus);
-        System.out.println("Server ID: " + serverId);
-        System.out.println("Customer ID: " + customerId);
+        if(availabilityStatus()){
+            System.out.println("Table Number: " + tableNumber);
+            System.out.println("Occupied Status: " + occupiedStatus);
+            System.out.println("Customer ID: " + customerId);
+        }else {
+            System.out.println("Table Number: " + tableNumber);
+            System.out.println("Occupied Status: " + occupiedStatus);
+        }
+    }
+
+    public void setOccupiedStatus(boolean occupiedStatus) {
+        this.occupiedStatus = occupiedStatus;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public boolean availabilityStatus() {

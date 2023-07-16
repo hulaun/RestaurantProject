@@ -2,12 +2,9 @@ package restaurantproject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.List;
 
 public class FileHandler {
     public static String readFromFile(String fileName) throws IOException {
@@ -24,14 +21,12 @@ public class FileHandler {
     public static void writeToFile(String fileName, String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         writer.write(content);
-        writer.close();
     }
 
     public static void writeToFile(String fileName, Object content) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
             writer.write(content.toString());
-            writer.close();
         } catch (IOException e) {
             System.out.println("Error writing to file " + fileName);
         }
@@ -40,7 +35,6 @@ public class FileHandler {
     public static void appendToFile(String fileName, String content) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
         writer.append(content);
-        writer.close();
     }
 
     public static void readFromFile(String fileName, Object content) {
@@ -52,7 +46,6 @@ public class FileHandler {
                 sb.append(line);
                 sb.append(System.lineSeparator());
             }
-            reader.close();
         } catch (IOException e) {
             System.out.println("Error reading from file " + fileName);
         }

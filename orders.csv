@@ -1,7 +1,8 @@
-1,Fried Rice,5.9,10
-2,Grilled Chicken,3.5,20
-3,Spaghetti Bolognese,6.9,15
-4,Caesar Salad,4.9,25
-5,Tuna Sandwiches,2.5,30
-6,Beef Burger with Fries and Salad,9.9,20
-7,Margherita Pizza ,8.5,15
+34,1,1::2::20,TRUE
+35,2,1::1::10,FALSE
+36,3,2::1::15,FALSE
+37,4,5::4::20,FALSE
+38,5,4::2::16,TRUE
+39,6,3::2::24,FALSE
+40,7,4::2::16,FALSE
+41,8,2::2::30,TRUE

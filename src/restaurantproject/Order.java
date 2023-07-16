@@ -17,14 +17,12 @@ public class Order {
     private int orderId;
     private List<MenuItem> items;
     private int customerId;
-    private int serverId;
     private boolean isOrdered = false;
 
-    public Order(int orderId, int customerId, int serverId) {
+    public Order(int orderId, int customerId) {
         this.orderId = orderId;
         this.items = new ArrayList<>();
         this.customerId = customerId;
-        this.serverId = serverId;
     }
 
     public int getOrderId() {
@@ -32,11 +30,16 @@ public class Order {
     }
 
     public void addMenuItem(MenuItem item, int quantity) {
-        MenuItem newItem = new MenuItem(item.getItemId(), item.getItemName(), item.getAmount(), quantity);
+        MenuItem newItem = new MenuItem(item.getItemId(), item.getItemName(), item.getCost());
+        newItem.setQuantity(quantity);
         items.add(newItem);
     }
 
-    public boolean isIsOrdered() {
+    public List<MenuItem> getItems() {
+        return items;
+    }
+
+    public boolean isOrdered() {
         return isOrdered;
     }
 
@@ -45,11 +48,14 @@ public class Order {
     }
 
     public String toCSV() {
-        String csv = orderId + "," + customerId + "," + serverId;
-        for (MenuItem item : items) {
-            csv += "," + item.getItemName()+ "," + item.getCost();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < items.size(); i++) {
+            sb.append(items.get(i).getItemId()).append("::").append(items.get(i).getQuantity()).append("::").append(items.get(i).getCost());
+            if (i != items.size() - 1) {
+                sb.append(";");
+            }
         }
-        return csv;
+        return orderId + "," + customerId+","+sb+","+isOrdered;
     }
     public void checkIsOrdered(){
         this.isOrdered =true;

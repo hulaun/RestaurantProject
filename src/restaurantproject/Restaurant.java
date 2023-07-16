@@ -70,18 +70,19 @@ public class Restaurant {
             System.out.println();
         }
     }
-    
-    public static void printMenuItems() {
-        for (MenuItem item : instance.menuItems) {
-            item.itemDetails();
-            System.out.println();
-        }
-    }
 
     public static Customer getCustomerById(int id) {
         for (Customer customer : instance.customers) {
             if (customer.getCustomerId() == id) {
                 return customer;
+            }
+        }
+        return null;
+    }
+    public static List<MenuItem> getItemsByOrderId(int orderid) {
+        for (Order ord : instance.orders) {
+            if (ord.getOrderId() == orderid) {
+                return ord.getItems();
             }
         }
         return null;
@@ -102,19 +103,16 @@ public class Restaurant {
             csv = FileHandler.readFromFile("customers.csv");
             customersFromCSV(csv);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         try {
             csv = FileHandler.readFromFile("employees.csv");
             employeesFromCSV(csv);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         try {
-            csv = FileHandler.readFromFile("menuItems.csv");
-            menuItemsFromCSV(csv);
+            csv = FileHandler.readFromFile("orders.csv");
+            employeesFromCSV(csv);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -148,6 +146,20 @@ public class Restaurant {
             }
         }
     }
+    public static void ordersFromCSV(String csv) {
+        String[] lines = csv.split("\n");
+        for (String line : lines) {
+            String[] fields = line.split(",");
+            if(fields.length == 5){
+                int customerId = Integer.parseInt(fields[0]);
+                String customerName = fields[1].trim();
+                int billId = Integer.parseInt(fields[2].trim());
+                int orderId = Integer.parseInt(fields[3].trim());
+                int paymentId = Integer.parseInt(fields[4].trim());
+                instance.customers.add(new Customer(customerId, customerName, billId, orderId, paymentId));
+            }
+        }
+    }
 
     public static void employeesFromCSV(String csv) {
         String[] lines = csv.split("\n");
@@ -157,33 +169,26 @@ public class Restaurant {
             int id = Integer.parseInt(fields[1].trim());
             String name = fields[2].trim();
             double salary = Double.parseDouble(fields[3].trim());
-            int employeeId = Integer.parseInt(fields[4].trim());
-            int orderId = Integer.parseInt(fields[5].trim());
-    
             if (type.equals("server")) {
-                int serverId = Integer.parseInt(fields[6].trim());
-                Server server = new Server(employeeId, name, salary, serverId, orderId);
+                Server server = new Server(id, name, salary);
                 appendEmployee(server);
             } else if (type.equals("chef")) {
-                int chefId = Integer.parseInt(fields[6].trim());
-                Chef chef = new Chef(employeeId, name, salary, chefId, orderId);
+                Chef chef = new Chef(id, name, salary);
                 appendEmployee(chef);
             }
         }
     }
 
-    public static void menuItemsFromCSV(String csv) {
-        String[] lines = csv.split("\n");
-        for (String line : lines) {
-            String[] fields = line.split(",");
-            int itemId = Integer.parseInt(fields[0].trim());
-            String itemName = fields[1].trim();
-            double itemAmount = Double.parseDouble(fields[2].trim());
-            int itemQuantity = Integer.parseInt(fields[3].trim());
-            instance.menuItems.add(new MenuItem(itemId, itemName, itemAmount, itemQuantity));
+    public static void billCalculate(Bill bill){
+        List<List<MenuItem>> orders = new ArrayList<>();
+        for(int i : bill.getOrderId()){
+            if(getItemsByOrderId(i) != null){
+                orders.add(getItemsByOrderId(i));
+            }
         }
+        bill.calculateBill(orders);
     }
-
+    
     public static void appendEmployee(Employee employee) {
         instance.employees.add(employee);
     }

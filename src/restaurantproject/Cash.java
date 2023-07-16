@@ -5,14 +5,14 @@
  */
 package restaurantproject;
 
-/**
- *
- * @author dvtso
- */
+import java.util.List;
+
 public class Cash extends Bill {
-    public Cash(int paymentId, int billId) {
-        super(paymentId, billId);
+
+    public Cash(int billId, List<Integer> orderId) {
+        super(billId, orderId);
     }
+    
 
     public void makePayment() {
         System.out.println("Payment made by cash");

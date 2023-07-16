@@ -5,14 +5,13 @@
  */
 package restaurantproject;
 
-/**
- *
- * @author dvtso
- */
+import java.util.List;
 public class Card extends Bill {
-    public Card(int paymentId, int billId) {
-        super(paymentId, billId);
+
+    public Card(int billId, List<Integer> orderId) {
+        super(billId, orderId);
     }
+    
 
     public void makePayment() {
         System.out.println("Payment made by card or online");

@@ -13,29 +13,36 @@ import java.util.List;
  */
 public class Bill {
     private int billId;
-    private int orderId;
+    private List<Integer> orderId;
     private double totalBill;
     private boolean isPaid=false;
 
-    public Bill(int billId, int orderId) {
+    public Bill(int billId, List<Integer> orderId) {
         this.billId = billId;
         this.orderId = orderId;
         this.totalBill = 0.0;
     }
 
-    public void calculateBill(List<MenuItem> items) {
-        for (MenuItem item : items) {
-            double itemCost = item.getCost();
-            int itemQuantity = item.getQuantity();
+    public void calculateBill(List<List<MenuItem>> orders) {
+        for(List<MenuItem> order : orders){
+            for (MenuItem item : order) {
+                double itemCost = item.getCost();
+                int itemQuantity = item.getQuantity();
 
-            double itemsCost = itemCost * itemQuantity;
-            totalBill += itemsCost;
+                double itemsCost = itemCost * itemQuantity;
+                totalBill += itemsCost;
+            }
         }
 
         System.out.println("Bill ID: " + billId);
-        System.out.println("Order ID: " + orderId);
         System.out.println("Total Bill: " + totalBill);
     }
+
+    public List<Integer> getOrderId() {
+        return orderId;
+    }
+
+
     
     public void markAsPaid() {
         isPaid=true;
