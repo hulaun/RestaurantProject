@@ -13,7 +13,7 @@ public class MenuItem {
     private int itemId;
     private String itemName;
     private int quantity;
-    private double amount;
+    private double cost;
 
     public MenuItem(int itemId, String itemName, double amount) {
         this.itemId = itemId;
@@ -24,10 +24,17 @@ public class MenuItem {
     public MenuItem(int itemId, String itemName, double amount, int quantity) {
         this.itemId = itemId;
         this.itemName = itemName;
-        this.amount = amount;
+        this.cost = amount;
         this.quantity = quantity;
     }
 
+    public void itemDetails() {
+        System.out.println("Item ID: " + itemId);
+        System.out.println("Item Name: " + itemName);
+        System.out.println("Item Quantity: " + quantity);
+        System.out.println("Item Amout: " + cost);
+    }
+    
     public int getItemId() {
         return itemId;
     }
@@ -36,8 +43,8 @@ public class MenuItem {
         return itemName;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getCost() {
+        return cost;
     }
 
     public int getQuantity() {

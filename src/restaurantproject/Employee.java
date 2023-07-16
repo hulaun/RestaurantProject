@@ -10,7 +10,8 @@ package restaurantproject;
  * @author dvtso
  */
 
-public class Employee {
+public abstract class Employee {
+    protected String TYPE;
     private int employeeId;
     private String employeeName;
     private double employeeSalary;
@@ -47,7 +48,5 @@ public class Employee {
         System.out.println("Employee Salary: " + employeeSalary);
     }
 
-    public String toCSV() {
-        return employeeId + "," + employeeName + "," + employeeSalary;
-    }
+    abstract public String toCSV();
 }

@@ -10,13 +10,18 @@ package restaurantproject;
  * @author dvtso
  */
 public class Chef extends Employee {
-    private int chefId;
+    private final String TYPE = "chef";
     private int orderId;
 
     public Chef(int employeeId, String employeeName, double employeeSalary, int chefId, int orderId) {
         super(employeeId, employeeName, employeeSalary);
         this.chefId = chefId;
         this.orderId = orderId;
+    }
+
+    @Override
+    public String toCSV() {
+        return TYPE + "," + getId() + "," + getName() + "," + getSalary() + "," + orderId;
     }
 }
 

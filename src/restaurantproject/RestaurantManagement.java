@@ -5,7 +5,6 @@
 package restaurantproject;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  *
@@ -22,10 +21,12 @@ public class RestaurantManagement extends UIMenu<String>{
     
     static String[] customerMenu = {
         "List all customers",
+        "List menu items",
         "Search customer and his order", 
         "Add customer", 
         "Add order", 
         "Read File",
+        "Check Ordered",
         "Remove Order",
         "Remove Customer(payment)", 
         "Return",
@@ -89,25 +90,32 @@ public class RestaurantManagement extends UIMenu<String>{
                         Restaurant.printCustomers();
                         break;
                     case 2:
-                        customerSearching();
+                        Restaurant.printMenuItems();
                         break;
                     case 3:
-                        addCustomer();
+                        customerSearching();
                         break;
                     case 4:
-                        addOrder();
+                        addCustomer();
                         break;
                     case 5:
+                        addOrder();
+                        break;
+                    case 6:
                         try {
                             Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
+                            Restaurant.menuItemsFromCSV(FileHandler.readFromFile("menuItems.csv"));
                         } catch (IOException e) {
                             System.out.println("Error: " + e.getMessage());
                         }
                         break;
-                    case 6:
+                    case 7:
+                        isOrdered();
+                        break;
+                    case 8:
                         removeOrder();
                         break;
-                    case 7:
+                    case 9:
                         removeCustomer();
                         break; 
                     default:
@@ -152,16 +160,12 @@ public class RestaurantManagement extends UIMenu<String>{
 //--------------------------------------------------
 
     public String getValue(String msg) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(msg);
         return sc.nextLine();
     }
 //--------------------------------------------------
 
     public void addCustomer() {
-        /*them customer va order chung vao CustomerFile
-            khi old customer muon order thi update CustomerFile 
-        */
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID :")));
 
         // Check if the customer already exists
@@ -241,25 +245,24 @@ public class RestaurantManagement extends UIMenu<String>{
 
     public void addEmployee() {
         int id = Integer.parseInt(val.validEmployeeId(getValue("Enter EmployeeID: ")));
-        
-
         // Check if the employee already exists
-        Employee existingEmployee = Restaurant.getEmployeeById(id);
+        Employee employee = Restaurant.getEmployeeById(id); 
+        if (employee != null) {
+            System.out.println("Employee already exists.");
+            return;
+        }
 
-        if (existingEmployee != null) {
-            // Print the employee name and prompt for salary
-            System.out.println("Employee name: " + existingEmployee.getName());
-            double newSalary = Double.parseDouble(val.validSalary(getValue("Enter new salary: ")));
-
-            // Update the existing employee
-            existingEmployee.setSalary(newSalary);
-            System.out.println("Employee updated successfully.");
+        String type = val.validType(getValue("Enter Type of Employee (\"chef\" or \"server\"): "));
+        // Add a new employee
+        String name = val.validName(getValue("Enter Name of Employee: "));
+        int salary = Integer.parseInt(val.validSalary(getValue("Enter Salary of Employee: ")));
+        if (type.equals("chef")) {
+            employee = new Chef(id, name, salary);
+        } else if (type.equals("server")) {
+            employee = new Server(id, name, salary);
         } else {
-            String name = val.validName(getValue("Enter Name of Employee: "));
-            double salary = Double.parseDouble(val.validSalary(getValue("Enter Salary of Employee: ")));
-            // Add a new employee
-            Restaurant.appendEmployee(new Employee(id, name, salary));
-            System.out.println("Employee added successfully.");
+            System.out.println("Invalid employee type.");
+            return;
         }
     }
 
@@ -323,6 +326,11 @@ private void employeeSearching() {
         System.out.println("Thank you for choosing us! bye bye");
         System.exit(0);
     }
+    
+    private void isOrdered() {
+        int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
+        Restaurant.removeCustomerById(id);
+    }
 
     private void removeOrder() {
         int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
@@ -333,7 +341,7 @@ private void employeeSearching() {
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
         Restaurant.removeCustomerById(id);
     }
-
+    
     private void removeEmployee() {
         int id = Integer.parseInt(val.validEmployeeId(getValue("Enter EmployeeID: ")));
         Restaurant.removeEmployeeById(id);

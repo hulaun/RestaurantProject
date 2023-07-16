@@ -70,6 +70,13 @@ public class Restaurant {
             System.out.println();
         }
     }
+    
+    public static void printMenuItems() {
+        for (MenuItem item : instance.menuItems) {
+            item.itemDetails();
+            System.out.println();
+        }
+    }
 
     public static Customer getCustomerById(int id) {
         for (Customer customer : instance.customers) {
@@ -90,7 +97,6 @@ public class Restaurant {
     }
 
     public static void fromCSV() {
-        
         String csv;
         try {
             csv = FileHandler.readFromFile("customers.csv");
@@ -101,6 +107,12 @@ public class Restaurant {
         try {
             csv = FileHandler.readFromFile("employees.csv");
             employeesFromCSV(csv);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            csv = FileHandler.readFromFile("menuItems.csv");
+            menuItemsFromCSV(csv);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,23 +138,49 @@ public class Restaurant {
         String[] lines = csv.split("\n");
         for (String line : lines) {
             String[] fields = line.split(",");
-            int customerId = Integer.parseInt(fields[0]);
-            String customerName = fields[1];
-            int billId = Integer.parseInt(fields[2]);
-            int orderId = Integer.parseInt(fields[3]);
-            int paymentId = Integer.parseInt(fields[4]);
-            instance.customers.add(new Customer(customerId, customerName, billId, orderId, paymentId));
+            if(fields.length == 5){
+                int customerId = Integer.parseInt(fields[0]);
+                String customerName = fields[1].trim();
+                int billId = Integer.parseInt(fields[2].trim());
+                int orderId = Integer.parseInt(fields[3].trim());
+                int paymentId = Integer.parseInt(fields[4].trim());
+                instance.customers.add(new Customer(customerId, customerName, billId, orderId, paymentId));
+            }
         }
     }
-    
+
     public static void employeesFromCSV(String csv) {
         String[] lines = csv.split("\n");
         for (String line : lines) {
             String[] fields = line.split(",");
-            int employeeId = Integer.parseInt(fields[0]);
-            String employeeName = fields[1];
-            double employeeSalary = Double.parseDouble(fields[2]);
-            instance.employees.add(new Employee(employeeId, employeeName, employeeSalary));
+            String type = fields[0].trim();
+            int id = Integer.parseInt(fields[1].trim());
+            String name = fields[2].trim();
+            double salary = Double.parseDouble(fields[3].trim());
+            int employeeId = Integer.parseInt(fields[4].trim());
+            int orderId = Integer.parseInt(fields[5].trim());
+    
+            if (type.equals("server")) {
+                int serverId = Integer.parseInt(fields[6].trim());
+                Server server = new Server(employeeId, name, salary, serverId, orderId);
+                appendEmployee(server);
+            } else if (type.equals("chef")) {
+                int chefId = Integer.parseInt(fields[6].trim());
+                Chef chef = new Chef(employeeId, name, salary, chefId, orderId);
+                appendEmployee(chef);
+            }
+        }
+    }
+
+    public static void menuItemsFromCSV(String csv) {
+        String[] lines = csv.split("\n");
+        for (String line : lines) {
+            String[] fields = line.split(",");
+            int itemId = Integer.parseInt(fields[0].trim());
+            String itemName = fields[1].trim();
+            double itemAmount = Double.parseDouble(fields[2].trim());
+            int itemQuantity = Integer.parseInt(fields[3].trim());
+            instance.menuItems.add(new MenuItem(itemId, itemName, itemAmount, itemQuantity));
         }
     }
 
@@ -202,27 +240,15 @@ public class Restaurant {
     }
 
     public static void removeOrderById(int id) {
-        for (Order order : instance.orders) {
-            if (order.getOrderId() == id) {
-                instance.orders.remove(order);
-            }
-        }
+        instance.orders.removeIf(ord -> ord.getOrderId() == id);
     }
 
     public static void removeCustomerById(int id) {
-        for (Customer customer : instance.customers) {
-            if (customer.getCustomerId() == id) {
-                instance.customers.remove(customer);
-            }
-        }
+        instance.customers.removeIf(cus -> cus.getCustomerId() == id);
     }
 
     public static void removeEmployeeById(int id) {
-        for (Employee employee : instance.employees) {
-            if (employee.getId() == id) {
-                instance.employees.remove(employee);
-            }
-        }
+        instance.employees.removeIf(emp -> emp.getId() == id);
     }
 
     public static void save() {

@@ -9,7 +9,7 @@ package restaurantproject;
  *
  * @author dvtso
  */
-public class Card extends Payment {
+public class Card extends Bill {
     public Card(int paymentId, int billId) {
         super(paymentId, billId);
     }

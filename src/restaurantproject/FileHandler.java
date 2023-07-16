@@ -18,7 +18,6 @@ public class FileHandler {
             sb.append(line);
             sb.append(System.lineSeparator());
         }
-        reader.close();
         return sb.toString();
     }
 
