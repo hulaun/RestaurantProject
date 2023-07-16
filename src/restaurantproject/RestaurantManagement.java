@@ -5,7 +5,6 @@
 package restaurantproject;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  *
@@ -15,13 +14,14 @@ public class RestaurantManagement extends UIMenu<String>{
     
     Validation val = new Validation();
     static String[] menu = {
-        "Employee management", 
         "Customer management",
+        "Employee management", 
         "Exit"
     };
     
     static String[] customerMenu = {
         "List all customers",
+        "List menu items",
         "Search customer and his order", 
         "Add customer", 
         "Add order", 
@@ -81,25 +81,28 @@ public class RestaurantManagement extends UIMenu<String>{
                         Restaurant.printCustomers();
                         break;
                     case 2:
-                        customerSearching();
+                        Restaurant.printMenuItems();
                         break;
                     case 3:
-                        addCustomer();
+                        customerSearching();
                         break;
                     case 4:
-                        addOrder();
+                        addCustomer();
                         break;
                     case 5:
+                        addOrder();
+                        break;
+                    case 6:
                         try {
                             Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
                         } catch (IOException e) {
                             System.out.println("Error: " + e.getMessage());
                         }
                         break;
-                    case 6:
+                    case 7:
                         removeOrder();
                         break;
-                    case 7:
+                    case 8:
                         removeCustomer();
                         break; 
                     default:
@@ -144,16 +147,12 @@ public class RestaurantManagement extends UIMenu<String>{
 //--------------------------------------------------
 
     public String getValue(String msg) {
-        Scanner sc = new Scanner(System.in);
         System.out.print(msg);
         return sc.nextLine();
     }
 //--------------------------------------------------
 
     public void addCustomer() {
-        /*them customer va order chung vao CustomerFile
-            khi old customer muon order thi update CustomerFile 
-        */
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID :")));
 
         // Check if the customer already exists

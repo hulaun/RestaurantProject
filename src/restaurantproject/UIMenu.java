@@ -15,6 +15,7 @@ import java.util.Scanner;
 public abstract class UIMenu<T> {
     protected String title;
     protected ArrayList<T> mChon;
+    Scanner sc = new Scanner(System.in);
     
     public UIMenu(){}
 
@@ -35,9 +36,13 @@ public abstract class UIMenu<T> {
     
     public int getSelected(){
         display();
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter selection: ");
-        return sc.nextInt();
+        String choice;
+        do{
+            System.out.print("Enter a selection: ");
+            choice = sc.nextLine();
+            if(!choice.matches("\\d{1,2}")) System.out.println("Invalid choice. Please enter numbers only");
+        }while(!choice.matches("\\d{1,2}"));
+        return Integer.parseInt(choice);
     }
     
     public abstract void execute(int n);
