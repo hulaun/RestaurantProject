@@ -210,25 +210,24 @@ public class RestaurantManagement extends UIMenu<String>{
 
     public void addEmployee() {
         int id = Integer.parseInt(val.validEmployeeId(getValue("Enter EmployeeID: ")));
-        
-
         // Check if the employee already exists
-        Employee existingEmployee = Restaurant.getEmployeeById(id);
+        Employee employee = Restaurant.getEmployeeById(id); 
+        if (employee != null) {
+            System.out.println("Employee already exists.");
+            return;
+        }
 
-        if (existingEmployee != null) {
-            // Print the employee name and prompt for salary
-            System.out.println("Employee name: " + existingEmployee.getName());
-            double newSalary = Double.parseDouble(val.validSalary(getValue("Enter new salary: ")));
-
-            // Update the existing employee
-            existingEmployee.setSalary(newSalary);
-            System.out.println("Employee updated successfully.");
+        String type = val.validType(getValue("Enter Type of Employee (\"chef\" or \"server\"): "));
+        // Add a new employee
+        String name = val.validName(getValue("Enter Name of Employee: "));
+        int salary = Integer.parseInt(val.validSalary(getValue("Enter Salary of Employee: ")));
+        if (type.equals("chef")) {
+            employee = new Chef(id, name, salary);
+        } else if (type.equals("server")) {
+            employee = new Server(id, name, salary);
         } else {
-            String name = val.validName(getValue("Enter Name of Employee: "));
-            double salary = Double.parseDouble(val.validSalary(getValue("Enter Salary of Employee: ")));
-            // Add a new employee
-            Restaurant.appendEmployee(new Employee(id, name, salary));
-            System.out.println("Employee added successfully.");
+            System.out.println("Invalid employee type.");
+            return;
         }
     }
 

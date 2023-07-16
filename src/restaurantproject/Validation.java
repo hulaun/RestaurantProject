@@ -12,6 +12,17 @@ import java.util.Scanner;
  */
 public class Validation {
     private Scanner sc = new Scanner(System.in);
+
+    public String validType(String value) {
+        String[] validTypes = {"server", "chef"};
+        
+        for (String validType : validTypes) {
+            if (value.equals(validType)) {
+                return value;
+            }
+        }
+        return validType(getValue("Invalid type. Please enter server or chef: "));
+    }
     
     public String validCustomerId(String value){
         if (value.matches("[0-9]*")) {
