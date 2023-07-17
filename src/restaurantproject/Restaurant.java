@@ -173,16 +173,18 @@ public class Restaurant {
         String[] lines = csv.split("\n");
         for (String line : lines) {
             String[] fields = line.split(",");
-            String type = fields[0].trim();
-            int id = Integer.parseInt(fields[1].trim());
-            String name = fields[2].trim();
-            double salary = Double.parseDouble(fields[3].trim());
-            if (type.equals("server")) {
-                Server server = new Server(id, name, salary);
-                appendEmployee(server);
-            } else if (type.equals("chef")) {
-                Chef chef = new Chef(id, name, salary);
-                appendEmployee(chef);
+            if(fields.length == 4){
+                String type = fields[0].trim();
+                int id = Integer.parseInt(fields[1].trim());
+                String name = fields[2].trim();
+                double salary = Double.parseDouble(fields[3].trim());
+                if (type.equals("server")) {
+                    Server server = new Server(id, name, salary);
+                    appendEmployee(server);
+                } else if (type.equals("chef")) {
+                    Chef chef = new Chef(id, name, salary);
+                    appendEmployee(chef);
+                }
             }
         }
     }
