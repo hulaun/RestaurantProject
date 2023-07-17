@@ -5,6 +5,7 @@
 package restaurantproject;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -25,7 +26,6 @@ public class RestaurantManagement extends UIMenu<String>{
         "Search customer and his order", 
         "Add customer", 
         "Add order", 
-        "Read File",
         "Check Ordered",
         "Remove Order",
         "Remove Customer(payment)", 
@@ -53,6 +53,9 @@ public class RestaurantManagement extends UIMenu<String>{
             try {
                 Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
                 Restaurant.employeesFromCSV(FileHandler.readFromFile("employees.csv"));
+                Menu menuItems = Restaurant.getInstance().menu();
+                menuItems.readMenuFromCSV();
+
                 // TODO: Implement save order as a raw object
             } catch (IOException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -102,22 +105,13 @@ public class RestaurantManagement extends UIMenu<String>{
                     case 5:
                         addOrder();
                         break;
-                    case 6:
-                        try {
-                            Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
-                            menuItems = Restaurant.getInstance().menu();
-                            menuItems.readMenuFromCSV();
-                        } catch (IOException e) {
-                            System.out.println("Error: " + e.getMessage());
-                        }
-                        break;
-                    case 7:
+                    case 67:
                         isOrdered();
                         break;
-                    case 8:
+                    case 7:
                         removeOrder();
                         break;
-                    case 9:
+                    case 8:
                         removeCustomer();
                         break; 
                     default:
@@ -187,8 +181,9 @@ public class RestaurantManagement extends UIMenu<String>{
             String name = val.validName(getValue("Enter Name of Customer: "));
             int billId = Integer.parseInt(val.validBillId(getValue("Enter BillID: ")));
             int orderId = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
-            int paymentId = Integer.parseInt(val.validPaymentId(getValue("Enter PaymentID: ")));
-            Restaurant.appendCustomer(new Customer(id, name, billId, orderId));
+            List<Integer> orderIds = null;
+            orderIds.add(orderId);
+            Restaurant.appendCustomer(new Customer(id, name, billId, orderIds));
             System.out.println("Customer added successfully.");
         }
     }

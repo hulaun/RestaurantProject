@@ -18,11 +18,11 @@ public class Customer {
     private int billId;
     private List<Integer> orderIds;
 
-    public Customer(int customerId, String customerName, int billId, int orderId) {
+    public Customer(int customerId, String customerName, int billId, List<Integer> orderId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.billId = billId;
-        this.orderIds.add(orderId);
+        this.orderIds = orderId;
     }
 
     public void customerDetails() {

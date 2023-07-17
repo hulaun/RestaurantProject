@@ -134,12 +134,16 @@ public class Restaurant {
         String[] lines = csv.split("\n");
         for (String line : lines) {
             String[] fields = line.split(",");
-            if(fields.length == 5){
+            if(fields.length == 4){
                 int customerId = Integer.parseInt(fields[0]);
                 String customerName = fields[1].trim();
                 int billId = Integer.parseInt(fields[2].trim());
-                int orderId = Integer.parseInt(fields[3].trim());
-                instance.customers.add(new Customer(customerId, customerName, billId, orderId));
+                String[] lines2 = fields[3].split(";");
+                List<Integer> orderIds = new ArrayList<>();
+                for(String line2 : lines2){
+                    orderIds.add(Integer.parseInt(line2.trim()));
+                }
+                instance.customers.add(new Customer(customerId, customerName, billId, orderIds));
             }
         }
     }
@@ -147,12 +151,20 @@ public class Restaurant {
         String[] lines = csv.split("\n");
         for (String line : lines) {
             String[] fields = line.split(",");
-            if(fields.length == 5){
+            if(fields.length == 4){
                 int customerId = Integer.parseInt(fields[0]);
                 String customerName = fields[1].trim();
                 int billId = Integer.parseInt(fields[2].trim());
-                int orderId = Integer.parseInt(fields[3].trim());
-                instance.customers.add(new Customer(customerId, customerName, billId, orderId));
+                String[] lines2 = fields[3].split(";");
+                List<Integer> orderIds = new ArrayList<>();
+                if(lines2.length == 0){
+                    orderIds.add(Integer.parseInt(fields[3]));
+                }else{
+                    for(String line2 : lines2){
+                        orderIds.add(Integer.parseInt(line2.trim()));
+                    }
+                }
+                instance.customers.add(new Customer(customerId, customerName, billId, orderIds));
             }
         }
     }
