@@ -49,7 +49,7 @@ public class RestaurantManagement extends UIMenu<String>{
     public static void main(String[] args) {
         // Instantiate the Restaurant and read data from CSV file
         Restaurant.getInstance();
-        if (input("Read from file? (y/n)").equalsIgnoreCase("y")) {
+        if (getValue("Read from file? (y/n)").equalsIgnoreCase("y")) {
             try {
                 Restaurant.customersFromCSV(FileHandler.readFromFile("customers.csv"));
                 Restaurant.employeesFromCSV(FileHandler.readFromFile("employees.csv"));
@@ -161,7 +161,7 @@ public class RestaurantManagement extends UIMenu<String>{
     }
 //--------------------------------------------------
 
-    public String getValue(String msg) {
+    public static String getValue(String msg) {
         System.out.print(msg);
         return sc.nextLine();
     }
@@ -177,12 +177,10 @@ public class RestaurantManagement extends UIMenu<String>{
             System.out.println("Customer name: " + existingCustomer.getName());
             int billId = Integer.parseInt(val.validBillId(getValue("Enter BillID: ")));
             int orderId = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
-            int paymentId = Integer.parseInt(val.validPaymentId(getValue("Enter PaymentID: ")));
     
             // Update the existing customer
             existingCustomer.setBillId(billId);
             existingCustomer.setOrderId(orderId);
-            existingCustomer.setPaymentId(paymentId);
             System.out.println("Customer updated successfully.");
         } else {
             // Add a new customer
@@ -190,7 +188,7 @@ public class RestaurantManagement extends UIMenu<String>{
             int billId = Integer.parseInt(val.validBillId(getValue("Enter BillID: ")));
             int orderId = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
             int paymentId = Integer.parseInt(val.validPaymentId(getValue("Enter PaymentID: ")));
-            Restaurant.appendCustomer(new Customer(id, name, billId, orderId, paymentId));
+            Restaurant.appendCustomer(new Customer(id, name, billId, orderId));
             System.out.println("Customer added successfully.");
         }
     }
@@ -235,7 +233,7 @@ public class RestaurantManagement extends UIMenu<String>{
             order.addMenuItem(menuItem, quantity);
 
             // Prompt the user to add another item or finish
-            String input = input("Add another item? (y/n)");
+            String input = getValue("Add another item? (y/n)");
             if (input.equalsIgnoreCase("n")) {
                 done = true;
             }
@@ -317,13 +315,8 @@ public class RestaurantManagement extends UIMenu<String>{
         m.run();
     }
 
-    private static String input(String prompt) {
-        System.out.print(prompt);
-        return sc.nextLine();
-    }
-
     private static void close() {
-        if (input("Do you want to save the changes? (y/n): ").equalsIgnoreCase("y")) {
+        if (getValue("Do you want to save the changes? (y/n): ").equalsIgnoreCase("y")) {
             Restaurant.save();
         }
         System.out.println("Thank you for choosing us! bye bye");
@@ -344,6 +337,27 @@ public class RestaurantManagement extends UIMenu<String>{
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
         Bill bill = new Bill(Restaurant.getCustomerById(id).getBillId(),Restaurant.getCustomerById(id).getOrderIds()); 
         Restaurant.billCalculate(bill);
+        System.out.println(bill.toString());
+        String choice = getValue("Enter way to pay (\"cash\" or \"card\"): ");
+        switch (choice) {
+            case "cash":
+                bill.makePaymentWithCash();
+                bill.markAsPaid();
+                for(int ordId : bill.getOrderIds()){
+                    Restaurant.removeOrderById(ordId);
+                }
+                break;
+            case "server":
+                bill.makePaymentWithCard();
+                bill.markAsPaid();
+                for(int ordId : bill.getOrderIds()){
+                    Restaurant.removeOrderById(ordId);
+                }
+                break;
+            default:
+                System.out.println("Invalid input.");
+                return;
+        }
         Restaurant.removeCustomerById(id);
     }
     

@@ -17,14 +17,12 @@ public class Customer {
     private String customerName;
     private int billId;
     private List<Integer> orderIds;
-    private int paymentId;
 
-    public Customer(int customerId, String customerName, int billId, int orderId, int paymentId) {
+    public Customer(int customerId, String customerName, int billId, int orderId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.billId = billId;
         this.orderIds.add(orderId);
-        this.paymentId = paymentId;
     }
 
     public void customerDetails() {
@@ -35,7 +33,6 @@ public class Customer {
         for(int i =0 ;i<orderIds.size();i++){
             System.out.println("\t"+(i+1)+" "+orderIds.get(i));
         }
-        System.out.println("Payment ID: " + paymentId);
     }
 
     public int getCustomerId() {
@@ -71,14 +68,6 @@ public class Customer {
     }
     
 
-    public int getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-    }
-
     public String getName() {
         return customerName;
     }
@@ -99,6 +88,6 @@ public class Customer {
                 sb.append(";");
             }
         }
-        return customerId + "," + customerName + "," + billId + "," + sb + "," + paymentId;
+        return customerId + "," + customerName + "," + billId + "," + sb;
     }
 }

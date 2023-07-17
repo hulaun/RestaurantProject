@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class Bill {
     private int billId;
-    private List<Integer> orderId;
+    private List<Integer> orderIds;
     private double totalBill;
     private boolean isPaid=false;
 
     public Bill(int billId, List<Integer> orderId) {
         this.billId = billId;
-        this.orderId = orderId;
+        this.orderIds = orderId;
         this.totalBill = 0.0;
     }
 
@@ -33,13 +33,12 @@ public class Bill {
                 totalBill += itemsCost;
             }
         }
-
         System.out.println("Bill ID: " + billId);
         System.out.println("Total Bill: " + totalBill);
     }
 
-    public List<Integer> getOrderId() {
-        return orderId;
+    public List<Integer> getOrderIds() {
+        return orderIds;
     }
 
 
@@ -54,7 +53,15 @@ public class Bill {
         System.out.println("Bill ID: " + billId);
         System.out.println("Payment status: Not paid");
     }
-
+    
+    public void makePaymentWithCash() {
+        System.out.println("Payment made by cash successfully");
+    }
+    
+    public void makePaymentWithCard() {
+        System.out.println("Payment made by card or online successfully");
+    }
+    
     public boolean isPaid() {
         return isPaid;
     }

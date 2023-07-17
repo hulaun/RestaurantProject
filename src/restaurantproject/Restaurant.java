@@ -141,8 +141,7 @@ public class Restaurant {
                 String customerName = fields[1].trim();
                 int billId = Integer.parseInt(fields[2].trim());
                 int orderId = Integer.parseInt(fields[3].trim());
-                int paymentId = Integer.parseInt(fields[4].trim());
-                instance.customers.add(new Customer(customerId, customerName, billId, orderId, paymentId));
+                instance.customers.add(new Customer(customerId, customerName, billId, orderId));
             }
         }
     }
@@ -155,8 +154,7 @@ public class Restaurant {
                 String customerName = fields[1].trim();
                 int billId = Integer.parseInt(fields[2].trim());
                 int orderId = Integer.parseInt(fields[3].trim());
-                int paymentId = Integer.parseInt(fields[4].trim());
-                instance.customers.add(new Customer(customerId, customerName, billId, orderId, paymentId));
+                instance.customers.add(new Customer(customerId, customerName, billId, orderId));
             }
         }
     }
@@ -181,7 +179,7 @@ public class Restaurant {
 
     public static void billCalculate(Bill bill){
         List<List<MenuItem>> orders = new ArrayList<>();
-        for(int i : bill.getOrderId()){
+        for(int i : bill.getOrderIds()){
             if(getItemsByOrderId(i) != null){
                 orders.add(getItemsByOrderId(i));
             }
