@@ -334,7 +334,6 @@ public class RestaurantManagement extends UIMenu<String>{
         int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
         Bill bill = new Bill(Restaurant.getCustomerById(id).getBillId(),Restaurant.getCustomerById(id).getOrderIds()); 
         Restaurant.billCalculate(bill);
-        System.out.println(bill.toString());
         String choice = getValue("Enter way to pay (\"cash\" or \"card\"): ");
         switch (choice) {
             case "cash":
