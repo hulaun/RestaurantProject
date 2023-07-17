@@ -13,6 +13,7 @@ public class Server extends Employee {
     // Bro just violated encapsulation
     private int orderId;
     private int tableId;
+    private final String TYPE = "server";
 
     public Server(int employeeId, String employeeName, double employeeSalary) {
         super(employeeId, employeeName, employeeSalary);

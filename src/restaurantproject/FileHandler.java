@@ -19,8 +19,9 @@ public class FileHandler {
     }
 
     public static void writeToFile(String fileName, String content) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-        writer.write(content);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(content);
+        }
     }
 
     public static void writeToFile(String fileName, Object content) {

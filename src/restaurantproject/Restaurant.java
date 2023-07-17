@@ -117,7 +117,7 @@ public class Restaurant {
     public static String customersToCSV() {
         StringBuilder sb = new StringBuilder();
         for (Customer customer : instance.customers) {
-            sb.append(customer.toCSV());
+            sb.append(customer.toCSV() + "\n");
         }
         return sb.toString();
     }
@@ -125,7 +125,7 @@ public class Restaurant {
     public static String employeesToCSV() {
         StringBuilder sb = new StringBuilder();
         for (Employee employee : instance.employees) {
-            sb.append(employee.toCSV());
+            sb.append(employee.toCSV() + "\n");
         }
         return sb.toString();
     }
@@ -266,11 +266,11 @@ public class Restaurant {
 
     public static void save() {
         try {
-//            FileHandler.writeToFile("customers.csv", customersToCSV());
-//            FileHandler.writeToFile("employees.csv", employeesToCSV());
-            System.out.println(customersToCSV());
-            System.out.println(employeesToCSV());
-        } catch (Exception e) {
+           FileHandler.writeToFile("customers.csv", customersToCSV());
+           FileHandler.writeToFile("employees.csv", employeesToCSV());
+            // System.out.println(customersToCSV());
+            // System.out.println(employeesToCSV());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
