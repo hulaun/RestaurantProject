@@ -10,6 +10,7 @@ package restaurantproject;
  * @author dvtso
  */
 public class Chef extends Employee {
+    private final String TYPE = "chef";
 
     public Chef(int employeeId, String employeeName, double employeeSalary) {
         super(employeeId, employeeName, employeeSalary);
