@@ -34,21 +34,15 @@ public abstract class UIMenu<T> {
         System.out.println("------------------------------");
     }
     
-    public int getSelected() {
+    public int getSelected(){
         display();
-        Scanner sc = new Scanner(System.in);
-        
-        int tmp = 0;
-        while (tmp <= 0 || tmp > mChon.size()) {
-            System.out.print("Choose an option: ");
-            tmp = sc.nextInt();
-
-            if (tmp <= 0 || tmp > mChon.size()) {
-                System.out.println("Invalid option!");
-            }
-        }
-
-        return tmp;
+        String choice;
+        do{
+            System.out.print("Enter a selection: ");
+            choice = sc.nextLine();
+            if(!choice.matches("\\d{1,2}")) System.out.println("Invalid choice. Please enter numbers only");
+        }while(!choice.matches("\\d{1,2}"));
+        return Integer.parseInt(choice);
     }
     
     public abstract void execute(int n);
