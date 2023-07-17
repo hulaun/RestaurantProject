@@ -5,6 +5,7 @@
 package restaurantproject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,7 +106,7 @@ public class RestaurantManagement extends UIMenu<String>{
                     case 5:
                         addOrder();
                         break;
-                    case 67:
+                    case 6:
                         isOrdered();
                         break;
                     case 7:
@@ -181,7 +182,7 @@ public class RestaurantManagement extends UIMenu<String>{
             String name = val.validName(getValue("Enter Name of Customer: "));
             int billId = Integer.parseInt(val.validBillId(getValue("Enter BillID: ")));
             int orderId = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
-            List<Integer> orderIds = null;
+            List<Integer> orderIds = new ArrayList<>();
             orderIds.add(orderId);
             Restaurant.appendCustomer(new Customer(id, name, billId, orderIds));
             System.out.println("Customer added successfully.");
@@ -265,7 +266,7 @@ public class RestaurantManagement extends UIMenu<String>{
 
 //--------------------------------------------------
     private void customerSearching() {  
-        String[] mSearch = {"Find by CustomerID", "Find by Name"};
+        String[] mSearch = {"Find by CustomerID", "Find by Name", "Return"};
         UIMenu m = new UIMenu("Customer Searching", mSearch) {
             @Override
             public void execute(int n) {
@@ -288,7 +289,7 @@ public class RestaurantManagement extends UIMenu<String>{
     }
 //--------------------------------------------------  
     private void employeeSearching() {  
-        String[] mSearch = {"Find by ID", "Find by Name"};
+        String[] mSearch = {"Find by ID", "Find by Name", "Return"};
         UIMenu m = new UIMenu("Employee Searching", mSearch) {
             @Override
             public void execute(int n) {
@@ -319,8 +320,7 @@ public class RestaurantManagement extends UIMenu<String>{
     }
     
     private void isOrdered() {
-        int id = Integer.parseInt(val.validCustomerId(getValue("Enter CustomerID: ")));
-        Restaurant.removeCustomerById(id);
+        
     }
 
     private void removeOrder() {

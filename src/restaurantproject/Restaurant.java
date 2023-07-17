@@ -266,9 +266,11 @@ public class Restaurant {
 
     public static void save() {
         try {
-            FileHandler.writeToFile("customers.csv", customersToCSV());
-            FileHandler.writeToFile("employees.csv", employeesToCSV());
-        } catch (IOException e) {
+//            FileHandler.writeToFile("customers.csv", customersToCSV());
+//            FileHandler.writeToFile("employees.csv", employeesToCSV());
+            System.out.println(customersToCSV());
+            System.out.println(employeesToCSV());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
