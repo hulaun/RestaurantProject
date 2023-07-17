@@ -60,14 +60,12 @@ public class Restaurant {
     public static void printCustomers() {
         for (Customer customer : instance.customers) {
             customer.customerDetails();
-            System.out.println();
         }
     }
 
     public static void printEmployees() {
         for (Employee employee : instance.employees) {
             employee.employeeDetails();
-            System.out.println();
         }
     }
 
