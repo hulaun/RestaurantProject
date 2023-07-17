@@ -3,8 +3,8 @@ server,2,Bob,6000.6
 server,3,Charlie,7000.7
 server,4,Dave,8000.8
 server,5,Eve,9000.9
-server,6,Frank,10000
-server,7,Grace,11000.1
-server,8,Harry,12000.2
-chef,9,Isla,13000.3
-chef,10,Jack,14000.4
+server,6,Frank,10001
+server,7,Grace,11001.1
+server,8,Harry,12001.2
+chef,9,Isla,13001.3
+chef,10,Jack,14001.4

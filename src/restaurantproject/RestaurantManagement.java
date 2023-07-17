@@ -320,12 +320,14 @@ public class RestaurantManagement extends UIMenu<String>{
     }
     
     private void isOrdered() {
-        
+        int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
+        Restaurant.getOrderById(id).checkIsOrdered();
     }
 
     private void removeOrder() {
         int id = Integer.parseInt(val.validOrderId(getValue("Enter OrderID: ")));
         Restaurant.removeOrderById(id);
+        Restaurant.removeOrderIdInCustomerById(id);
     }
 
     private void removeCustomer() {

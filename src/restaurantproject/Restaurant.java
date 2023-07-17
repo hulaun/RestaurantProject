@@ -257,6 +257,12 @@ public class Restaurant {
     public static void removeOrderById(int id) {
         instance.orders.removeIf(ord -> ord.getOrderId() == id);
     }
+    
+    public static void removeOrderIdInCustomerById(int id) {
+        for(Customer cus : instance.customers){
+            cus.getOrderIds().removeIf(ordId -> ordId == id);
+        }
+    }
 
     public static void removeCustomerById(int id) {
         instance.customers.removeIf(cus -> cus.getCustomerId() == id);
