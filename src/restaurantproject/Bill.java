@@ -65,4 +65,9 @@ public class Bill {
     public boolean isPaid() {
         return isPaid;
     }
+
+    @Override
+    public String toString() {
+        return "Bill{" + "billId=" + billId + ", orderIds=" + orderIds + ", totalBill=" + totalBill + ", isPaid=" + isPaid + '}';
+    }
 }

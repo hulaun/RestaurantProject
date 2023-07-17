@@ -234,6 +234,8 @@ public class RestaurantManagement extends UIMenu<String>{
                 done = true;
             }
         }
+
+        Restaurant.addOrder(order);
     }
 
     public void addEmployee() {
@@ -343,7 +345,7 @@ public class RestaurantManagement extends UIMenu<String>{
                     Restaurant.removeOrderById(ordId);
                 }
                 break;
-            case "server":
+            case "card":
                 bill.makePaymentWithCard();
                 bill.markAsPaid();
                 for(int ordId : bill.getOrderIds()){
